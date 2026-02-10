@@ -7,7 +7,7 @@ name = "haiti-conflict-analysis"
 description = "Analysis of conflict dynamics in Haiti"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
-keywords = ["template", "reproducibility"]
+keywords = ["haiti", "conflict", "acled", "geospatial", "data-analysis"]
 authors = [{ name = "Development Data Group", email = "datalab@worldbank.org" }]
 classifiers = [
 	"Programming Language :: Python :: 3",

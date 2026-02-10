@@ -75,7 +75,6 @@ pyfonts==1.2.0
 Pygments==2.19.2
 pyogrio==0.12.1
 pypalettes==0.2.1
-pyparsing==3.3.3
 pyproj==3.7.2
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.1

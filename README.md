@@ -11,31 +11,6 @@ The assignment includes an analysis of conflict events, and its proximity to roa
 ```{tableofcontents}
 ```
 
-## Getting Started
-
-### Prerequisites
-
-- Python 3.9 or higher
-- Jupyter Lab for running notebooks
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/datapartnership/haiti-conflict-analysis.git
-   cd haiti-conflict-analysis
-   ```
-
-2. Create and activate the conda environment:
-   ```bash
-   conda env create -f environment.yml
-   conda activate haiti-analysis
-   ```
-
-### Usage
-
-For detailed documentation and analysis notebooks, visit the [project documentation](https://datapartnership.github.io/haiti-conflict-analysis/).
-
 ## Data
 
 - **ACLED (Armed Conflict Location & Event Data Project)**: Conflict event data providing detailed information about the dates, actors, locations, fatalities, and types of conflict events across Haiti. Used to analyze temporal and spatial patterns of conflict.
@@ -46,7 +21,7 @@ For detailed documentation and analysis notebooks, visit the [project documentat
 ## Contact
 
 For questions or support, please contact:
-- Email: datalab@worldbank.org
+- Email: datapartnership@.org
 - GitHub Issues: [Create an issue](https://github.com/datapartnership/haiti-conflict-analysis/issues)
 
 

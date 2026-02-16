@@ -2,7 +2,11 @@ import requests
 import shapely
 import shapely.ops
 import shapely.geometry
-import pandas as pd 
+import pandas as pd
+import urllib3
+
+# Disable SSL warnings when verify=False is used
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning) 
 
 def get_boundaries(attr, val):
     """
@@ -33,7 +37,7 @@ def get_boundaries(attr, val):
     ])
     
     try:
-        result = requests.get(url, timeout=30)
+        result = requests.get(url, timeout=30, verify=False)
         result.raise_for_status()
         
         res = result.json()
@@ -69,29 +73,30 @@ def get_boundaries(attr, val):
 
 def get_admin1_boundaries(iso_code):
     """
-    This function queries World Bank admin level 1 boundaries (provinces/departments)
-    via ArcGIS REST API and returns all admin 1 subdivisions for a country.
+    This function queries World Bank Global Administrative Divisions API for admin level 1 boundaries
+    (provinces/departments) and returns all admin 1 subdivisions for a country.
     
     Input:
-    iso_code: ISO 3-letter country code (e.g., 'HTI' for Haiti)
+    iso_code: ISO 3-letter country code (e.g., 'HTI' for Haiti, 'MMR' for Myanmar)
     
     API Documentation:
-    https://services.arcgis.com/iQ1dY19aHwbSDYIF/ArcGIS/rest/services/HDD_admin1_generalized/FeatureServer/0
+    https://services.arcgis.com/iQ1dY19aHwbSDYIF/ArcGIS/rest/services/World_Bank_Global_Administrative_Divisions/FeatureServer/2
     
     Returns:
     A pandas DataFrame with all admin 1 subdivisions and their geometries (shapely polygons).
     Each row represents one admin 1 subdivision (province/department/state).
-    Key columns: NAME_0 (country), NAME_1 (subdivision), ISO (country code), geometry
+    Key columns: ISO_A3, NAM_0 (country), NAM_1 (admin 1 name), ADM1CD_c (code), geometry
     """
     
+    # World Bank Global Administrative Divisions - Layer 2 (ADM1)
     url = ''.join([
         'https://services.arcgis.com/iQ1dY19aHwbSDYIF/ArcGIS/rest/services/',
-        'HDD_admin1_generalized/FeatureServer/0/query?',
-        f"where=ISO='{iso_code}'&f=pjson&returnGeometry=true&outFields=*&outSR=4326"
+        'World_Bank_Global_Administrative_Divisions/FeatureServer/2/query?',
+        f"where=ISO_A3='{iso_code}'&f=pjson&returnGeometry=true&outFields=*&outSR=4326"
     ])
     
     try:
-        result = requests.get(url, timeout=30)
+        result = requests.get(url, timeout=30, verify=False)
         result.raise_for_status()
         
         res = result.json()
@@ -138,30 +143,30 @@ def get_admin1_boundaries(iso_code):
 
 def get_admin2_boundaries(iso_code):
     """
-    This function queries World Bank admin level 2 boundaries (districts/communes)
-    via ArcGIS REST API and returns all admin 2 subdivisions for a country.
+    This function queries World Bank Global Administrative Divisions API for admin level 2 boundaries
+    (districts/communes) and returns all admin 2 subdivisions for a country.
     
     Input:
-    iso_code: ISO 3-letter country code (e.g., 'HTI' for Haiti)
+    iso_code: ISO 3-letter country code (e.g., 'HTI' for Haiti, 'MMR' for Myanmar)
     
     API Documentation:
-    https://services.arcgis.com/iQ1dY19aHwbSDYIF/ArcGIS/rest/services/Admin_LVL2_generalized/FeatureServer/1
+    https://services.arcgis.com/iQ1dY19aHwbSDYIF/ArcGIS/rest/services/World_Bank_Global_Administrative_Divisions/FeatureServer/3
     
     Returns:
     A pandas DataFrame with all admin 2 subdivisions and their geometries (shapely polygons).
     Each row represents one admin 2 subdivision (district/commune/county).
-    Key columns: WB_ADM0_NA (country), WB_ADM1_NA (admin 1 name), WB_ADM2_NA (admin 2 name), 
-                 WB_ADM2_CO (admin 2 code), ISO3 (country code), geometry
+    Key columns: ISO_A3, NAM_0 (country), NAM_1 (admin 1 name), NAM_2 (admin 2 name), ADM2CD_c (code), geometry
     """
     
+    # World Bank Global Administrative Divisions - Layer 3 (ADM2)
     url = ''.join([
         'https://services.arcgis.com/iQ1dY19aHwbSDYIF/ArcGIS/rest/services/',
-        'Admin_LVL2_generalized/FeatureServer/1/query?',
-        f"where=ISO3='{iso_code}'&f=pjson&returnGeometry=true&outFields=*&outSR=4326"
+        'World_Bank_Global_Administrative_Divisions/FeatureServer/3/query?',
+        f"where=ISO_A3='{iso_code}'&f=pjson&returnGeometry=true&outFields=*&outSR=4326"
     ])
     
     try:
-        result = requests.get(url, timeout=30)
+        result = requests.get(url, timeout=30, verify=False)
         result.raise_for_status()
         
         res = result.json()
